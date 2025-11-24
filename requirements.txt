@@ -1,5 +1,6 @@
 streamlit
 transformers
+torch
 tokenizers
 huggingface-hub
 lime

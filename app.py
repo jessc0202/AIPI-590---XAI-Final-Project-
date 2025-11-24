@@ -61,7 +61,7 @@ def load_model_and_tokenizer():
     )
     return tokenizer, model, pipeline
 
-
+tokenizer, model, pipe = load_model_and_tokenizer()
 # ============================================================
 # LIME Wrapper
 # ============================================================
