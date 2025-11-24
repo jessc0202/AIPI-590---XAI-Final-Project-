@@ -53,7 +53,6 @@ MODEL_REPO = "Jess02/goemotions-3class-distilbert"
 def load_model_and_tokenizer():
     tokenizer = DistilBertTokenizerFast.from_pretrained(MODEL_REPO)
     model = DistilBertForSequenceClassification.from_pretrained(MODEL_REPO)
-
     pipeline = TextClassificationPipeline(
         model=model,
         tokenizer=tokenizer,
@@ -61,8 +60,6 @@ def load_model_and_tokenizer():
         batch_size=16
     )
     return tokenizer, model, pipeline
-
-tokenizer, model, pipe = load_model_and_tokenizer()
 
 
 # ============================================================
