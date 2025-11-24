@@ -27,7 +27,7 @@ A general-purpose chatbot might miscode language used in crises.
 
 ### 3. The Data Trade-Off (Real vs. Synthetic)
 Training on real mental health posts (like Reddit data) is high-performance but ethically risky due to privacy concerns.
-* **My Experiment:** I initially attempted to train purely on **Synthetic Data** (also included in the repo called 'synthetic_mental_health_dataset.csv') to maximize privacy. However, I found that synthetic data lacked the linguistic diversity needed for a robust chatbot. Hence, it will always give false predictions.
+* **My Experiment:** I initially attempted to train purely on **Synthetic Data** (also included in the repo called `synthetic_mental_health_dataset.csv`) to maximize privacy. However, I found that synthetic data lacked the linguistic diversity needed for a robust chatbot. Hence, it will always give false predictions.
 * **The Solution:** The final deployed model uses the **GoEmotions dataset** (Google Research) as a high-quality, open-source benchmark, while the synthetic dataset is preserved in the repo to demonstrate the "privacy-first" approach we attempted.
 ---
 
@@ -42,6 +42,15 @@ This project includes:
 The goal is to explore:
 - How LIME explanations reveal feature importance  
 - The challenges and limitations of explainable NLP tools  
+
+---
+## 📂 Project Structure
+
+* `app.py`: The main Streamlit application file. Run this to launch the interface.
+* `GoEmotions_Training_Notebook.ipynb`: Jupyter notebook used to fine-tune DistilBERT on the GoEmotions dataset.
+* `GoEmotions_Inference_LIME.ipynb`: Notebook demonstrating how LIME works on specific examples (useful for debugging model behavior).
+* `synthetic_mental_health_dataset.csv`: The custom synthetic dataset generated for the initial (and educational) privacy experiment.
+* `requirements.txt`: List of all Python dependencies required to run the app.
 
 ---
 
