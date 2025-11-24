@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Streamlit cache
+.streamlit/
+
+# IDE
+.vscode/
+.idea/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# HuggingFace model downloads
+huggingface/
+models/
+*.safetensors
+*.bin
+
+# Ignore local virtual environments
+venv/
+.env/
+.env*/ 
+venv*/
+
+# macOS system files
+.DS_Store
+
+# Large datasets
+*.csv
+
+# But keep these specific CSVs (unignore them)
+!train.csv
+!test.csv
+!validation.csv
+!synthetic_mental_health_dataset.csv
+
+# Ignore the model files EXCEPT your uploaded HF model folder
+goemotions_3class_model/
+goemotions-3class-distilbert/

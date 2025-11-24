@@ -39,29 +39,27 @@ CRISIS_PATTERNS = [
 
 def check_crisis(text):
     t = text.lower()
-    matches = []
-    for p in CRISIS_PATTERNS:
-        m = re.search(p, t)
-        if m:
-            matches.append(m.group(0))
+    matches = [m.group(0) for p in CRISIS_PATTERNS if (m := re.search(p, t))]
     return matches
 
 
 # ============================================================
-# Load Fine-Tuned Model
+# Load Model FROM HUGGINGFACE
 # ============================================================
-MODEL_DIR = "goemotions_3class_model"
+
+MODEL_REPO = "Jess02/goemotions-3class-distilbert"
 
 @st.cache_resource
 def load_model_and_tokenizer():
-    tokenizer = DistilBertTokenizerFast.from_pretrained(MODEL_DIR)
-    model = DistilBertForSequenceClassification.from_pretrained(MODEL_DIR)
+    tokenizer = DistilBertTokenizerFast.from_pretrained(MODEL_REPO)
+    model = DistilBertForSequenceClassification.from_pretrained(MODEL_REPO)
+
     pipeline = TextClassificationPipeline(
-    model=model,
-    tokenizer=tokenizer,
-    return_all_scores=True,
-    batch_size=16
-)
+        model=model,
+        tokenizer=tokenizer,
+        return_all_scores=True,
+        batch_size=16
+    )
     return tokenizer, model, pipeline
 
 tokenizer, model, pipe = load_model_and_tokenizer()
@@ -99,7 +97,6 @@ if st.button("Analyze"):
 
     if not text:
         st.warning("Please enter text before running the analysis.")
-
     else:
         # ---------- Crisis Override ----------
         crisis_hits = check_crisis(text)
@@ -123,33 +120,32 @@ if st.button("Analyze"):
         st.json(prob_dict)
 
         # ---------- LIME Explanation ----------
-        # ---------- LIME Explanation ----------
-    st.subheader("LIME Explanation")
+        st.subheader("LIME Explanation")
 
-    explainer = LimeTextExplainer(
-        class_names=CLASS_NAMES,
-        bow=False,
-        split_expression=r"\s+",
-        mask_string="",
-        char_level=False,
-        random_state=42,
-        feature_selection="lasso_path"
-)
+        explainer = LimeTextExplainer(
+            class_names=CLASS_NAMES,
+            bow=False,
+            split_expression=r"\s+",
+            mask_string="",
+            char_level=False,
+            random_state=42,
+            feature_selection="lasso_path"
+        )
 
-    label_index = CLASS_NAMES.index(prediction)
+        label_index = CLASS_NAMES.index(prediction)
 
-    explanation = explainer.explain_instance(
-        text,
-        lime_predict,            # now batched
-        labels=[label_index],
-        num_features=6,          # fewer features
-        num_samples=150,         # major speed gain
-)
+        explanation = explainer.explain_instance(
+            text,
+            lime_predict,
+            labels=[label_index],
+            num_features=6,
+            num_samples=150,
+        )
 
-    st.write("Top influential words:")
-    st.write(explanation.as_list(label=label_index))
+        st.write("Top influential words:")
+        st.write(explanation.as_list(label=label_index))
 
-    st.components.v1.html(explanation.as_html(), height=600, scrolling=True)
+        st.components.v1.html(explanation.as_html(), height=600, scrolling=True)
 
 
 st.markdown("---")
